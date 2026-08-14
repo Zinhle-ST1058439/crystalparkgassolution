@@ -1,5 +1,5 @@
 # crystalparkgassolution
-Part 1: 5-page website for Crystal Park Gas Solutions
+Part 1: 5-page website for Crystal Park Gas Solution
 #Crystal Park Gas Solution-WEDE5020 Part 1
 **Student no: **Zinhle ST10518439
 **Live Website: **https://zinhle-st10518439.github.io/crystalparkgassolution/
