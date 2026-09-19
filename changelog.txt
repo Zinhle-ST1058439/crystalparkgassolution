@@ -1,0 +1,41 @@
+CRYSTAL PARK GAS SOLUTIONS- CHANGELOG
+Project : WEDE5020 POE -ZINHLE ST10518439
+Repository : crystalparkgassolutions
+
+[2026-08-10]-Version 0.1 -Intial Setup
+-Created folder structure WEDE5020_POE_ZINHLE
+-Created 5 HTML pages: index.html,about.html,product.html,enquiry.html,contact.html
+-Added basic navigation and Footer
+
+[2026-08-15]-Version 0.2 -Content & Images
+-Added business content for Crystal Park Gas Solutions
+-Added images : gas cylinders,delivery van,cooking gas
+-Created README.md with project description 
+-Fixed image paths
+
+[2026-08-20]-Version 0.3 -Styling 
+-Added CSS (style.css) for responsive design
+-Styled header,navigation,product cards
+-Added mobile responsiveness
+-Tested on Chrome
+
+[2026-09-10] -Version 1.0 - Forms & Functionality 
+-Created enquiry form with validation
+-Added contact form with Google Maps Embedded
+-Added WhatsApp contact button
+-Tested all links
+
+[2026-09-19] -Version 1.0 -Final Submission Fix
+-Fixed README.md timeline (added proper dates)
+-Created wireframes.txt and wireframes.pdf 
+-Created  budget.txt and budget.pdf 
+-Created changelog.txt (this file)
+-Fixed duplicate image names(cookinggas.jpg-> cookinggas.jpg)
+-Pushed all files to GitHub
+Final checks before PoE submission 
+
+Notes:
+-All pages validated with W3C
+-Site tested on desktop and mobile 
+-Known issue : Images with (2) in name to renamed
+
