@@ -1,0 +1,29 @@
+# robots.txt for Crystal Park Gas - Benoni
+# Tells Google what to crawl
+
+User-agent: *
+Allow: /
+
+# Block admin / private areas (if you have)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.pdf$
+Disallow: /cgi-bin/
+
+# Allow important files
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /js/products.js
+Allow: /js/main.js
+
+# Sitemap location - CRITICAL
+Sitemap: https://crystalparkgas.co.za/sitemap.xml
+
+# Crawl delay (optional - be nice to servers)
+Crawl-delay: 10
+
+# For Bing
+User-agent: bingbot
+Allow: /
+Crawl-delay: 5
