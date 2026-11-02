@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><!-- PAGE SPEED -->
+<link rel="preload" href="css/style.css" as="style">
+<link rel="preload" href="js/main.js" as="script">
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="dns-prefetch" href="https://unpkg.com">
+
+<!-- Defer non-critical JS -->
+<script src="js/products.js" defer></script>
+<script src="js/main.js" defer></script>
+
+<!-- Images: Add loading="lazy" + width/height to ALL -->
+<img src="images/19kg.jpg" loading="lazy" width="600" height="400" alt="19kg gas">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery - Crystal Park Gas</title><title>Gas Installation Gallery | SANS Approved - Crystal Park Gas Benoni</title>
+<meta name="description" content="See our SANS approved gas installations in Crystal Park, Benoni. Safe cylinder setup, leak tests, customer deliveries. View 20+ installation photos.">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <div id="progress-bar"></div>
+<header class="site-header">
+  <div class="container flex-between header-inner">
+    <div class="logo">Crystal Park <span>Gas</span></div>
+    <nav><ul class="nav-links"><nav aria-label="Breadcrumb" style="font-size:13px;padding:10px 0;">
+  <a href="index.html">Home</a> > <a href="gas-prices-benoni.html">Gas Prices</a> > 19kg Refill
+</nav>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul></nav>
+    <button class="hamburger">☰</button>
+  </div>
+</header>
+
+<section class="section">
+  <div class="container">
+    <h2>Our Work - Gallery</h2>
+    <p class="lead">Click any image to view larger</p>
+    <!-- Gallery will be created by JS dynamically (Advanced DOM) -->
+    <div id="gallery" class="gallery-grid"></div>
+  </div>
+</section>
+
+<!-- Lightbox (hidden by default) -->
+<div id="lightbox" class="lightbox">
+  <button class="lightbox-close" id="lbClose">✕</button>
+  <button class="lightbox-prev" id="lbPrev">‹</button>
+  <img class="lightbox-img" id="lbImg" src="">
+  <button class="lightbox-next" id="lbNext">›</button>
+  <div class="lightbox-caption" id="lbCaption"></div>
+</div>
+
+<footer class="site-footer"><div class="container"><p>© 2026 Crystal Park Gas</p></div></footer>
+<script src="js/main.js"></script>
+</body>
+</html>

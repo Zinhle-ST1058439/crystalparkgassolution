@@ -3,18 +3,146 @@
     <meta charset ="UTF-8">
     <meta name= "viewpoint" content= "width=device-width,intial-scale=1.0">
     <!--Homepage for Crystal Park Gas solutions-->
-    <title> Home- Crystal Park Gas solutions</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title> Home- Crystal Park Gas solutions</title><title>Gas Delivery Crystal Park | 60 Min Delivery Benoni - Crystal Park Gas</title>
+<meta name="description" content="Fast 60-min LPG gas delivery in Crystal Park, Benoni. 19kg R450, 9kg R250, 5kg R180 refill. Free installation, SANS approved. Call 071 234 5678 for instant delivery.">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<!-- PAGE SPEED -->
+<link rel="preload" href="css/style.css" as="style">
+<link rel="preload" href="js/main.js" as="script">
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="dns-prefetch" href="https://unpkg.com">
+
+<!-- Defer non-critical JS -->
+<script src="js/products.js" defer></script>
+<script src="js/main.js" defer></script>
+
+<!-- Images: Add loading="lazy" + width/height to ALL -->
+<img src="images/19kg.jpg" loading="lazy" width="600" height="400" alt="19kg gas">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- PRIMARY SEO -->
+  <title>Crystal Park Gas - 60 Min Gas Delivery Benoni | 19kg 9kg 5kg</title>
+  <meta name="description" content="Fast 60-min LPG gas delivery in Crystal Park, Benoni. 19kg R450, 9kg R250, 5kg R180 refill. Free installation, SANS approved. Call 071 234 5678">
+  <meta name="keywords" content="gas delivery Crystal Park, Benoni gas, 19kg gas refill, LPG Benoni, Crystal Park Gas, gas bottle Benoni">
+  <meta name="author" content="Crystal Park Gas">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://crystalparkgas.co.za/index.html">
+
+  <!-- OPEN GRAPH - For WhatsApp/Facebook sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Crystal Park Gas - 60 Min Delivery Benoni">
+  <meta property="og:description" content="19kg R450 refill. Free delivery in Crystal Park. SANS certified installation.">
+  <meta property="og:image" content="https://crystalparkgas.co.za/images/og-image.jpg">
+  <meta property="og:url" content="https://crystalparkgas.co.za">
+  <meta property="og:locale" content="en_ZA">
+
+  <!-- TWITTER / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Crystal Park Gas - 60 Min Delivery">
+  <meta name="twitter:description" content="Fast gas delivery in Benoni - 19kg, 9kg, 5kg">
+
+  <!-- FAVICON + PERFORMANCE -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Preload for speed (Core Web Vitals) -->
+  <link rel="preload" href="css/style.css" as="style">
+  <link rel="preconnect" href="https://unpkg.com">
+  
+  <!-- jQuery + Leaflet -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Crystal Park Gas",
+  "image": "https://crystalparkgas.co.za/images/shop.jpg",
+  "description": "Fast 60-minute LPG gas delivery in Crystal Park, Benoni. SANS approved cylinders.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Crystal Park",
+    "addressLocality": "Benoni",
+    "addressRegion": "Gauteng",
+    "postalCode": "1515",
+    "addressCountry": "ZA"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -26.177,
+    "longitude": 28.320
+  },
+  "url": "https://crystalparkgas.co.za",
+  "telephone": "+27712345678",
+  "priceRange": "R180 - R950",
+  "openingHours": "Mo-Sa 07:00-19:00",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "127"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Gas Products",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "19kg Gas Refill" }, "price": "450", "priceCurrency": "ZAR" },
+      { "@type": "Offer", "itemOffered": { "@type": "Product", "name": "9kg Gas Refill" }, "price": "250", "priceCurrency": "ZAR" }
+    ]
+  }
+}
+</script>
 </head>
 <body>
+    <div id="progress-bar"></div>
     <!--Header section-->
     <header>
-        <h1>Crystal Park Gas solutions<h1>
+        <!-- GLOBAL SEARCH - Put this in header or top section -->
+<div class="card" style="position:sticky;top:70px;z-index:10;">
+  <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+    <div style="position:relative;flex:1;min-width:250px;">
+      <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);">🔍</span>
+      <input type="text" id="globalSearch" placeholder="Search products, posts, gas sizes... e.g., 19kg, refill, safety" style="width:100%;padding:12px 12px 12px 36px;border-radius:25px;border:2px solid #e2e8f0;">
+      <button id="clearSearch" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#f1f5f9;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;display:none;">✕</button>
+    </div>
+    <div id="searchStats" style="font-size:13px;color:#64748b;white-space:nowrap;">Ready to search</div>
+  </div>
+  <div id="searchTags" style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;">
+    <span class="search-tag" data-q="19kg">19kg</span>
+    <span class="search-tag" data-q="refill">Refill</span>
+    <span class="search-tag" data-q="new">New Cylinder</span>
+    <span class="search-tag" data-q="safety">Safety</span>
+    <span class="search-tag" data-q="free">Free Delivery</span>
+  </div>
+</div>
+
+<div id="noResults" style="display:none;text-align:center;padding:40px;" class="card">
+  <div style="font-size:48px;">😕</div>
+  <h3>No results for "<span id="noResultsQuery"></span>"</h3>
+  <p>Try: 19kg, 9kg, 5kg, refill, safety, delivery</p><p>Looking for <a href="gas-prices-benoni.html">19kg gas refill for R450</a> in Crystal Park? 
+We offer <a href="gas-bottles-benoni.html#9kg">9kg gas at R250</a> and 
+<a href="contact.html">free 60-min delivery in Crystal Park</a>. 
+See our <a href="installations-gallery.html">SANS approved installations</a>.</p>
+  <button id="resetSearch" class="btn-secondary" style="margin-top:10px;">Clear Search</button>
+</div>
+        <h1>Crystal Park Gas solutions<h1><h1>Fast 60-Minute Gas Delivery in Crystal Park, Benoni</h1>
+  <h2>Why Choose Crystal Park Gas?</h2>
+    <h3>Free Installation</h3>
+    <h3>SANS Approved Cylinders</h3>
+    <h3>60-Min Guarantee</h3>
+  <h2>Our Gas Prices - 19kg, 9kg, 5kg</h2>
+  <h2>Delivery Areas in Benoni</h2>
+  <h2>Customer Reviews</h2>
+  <h2>FAQs - Gas Delivery Crystal Park</h2>
             <nav>
                 <ul>
                     <li><a href ="index.html">Home</a></li>
-                    <li><a href ="about.html">About</a>/li>
-                        <li><a href =" product.html">Products</a></li>
+                    <li><a href ="about.html">About</a></li>
+                        <li><a href ="product.html">Products</a></li>
                         <li><a href ="enquiry.html" >Enquiry</a></li>
                             <li><a href = "contact.html">Contact<a></li>
                             </ul>
@@ -38,9 +166,30 @@
                             </ul>
                         </section>
                     </main>
+                    <section class="section">
+  <div class="container">
+    <h2>FAQs - Interactive</h2>
+    <div class="faq">
+      <div class="card faq-item"><div class="faq-question" style="cursor:pointer;font-weight:600;">+ How fast is delivery?</div><div class="faq-answer" style="display:none;padding-top:10px;">We deliver in 60 minutes inside Crystal Park, Benoni.</div></div>
+      <div class="card faq-item"><div class="faq-question" style="cursor:pointer;font-weight:600;">+ Is installation included?</div><div class="faq-answer" style="display:none;padding-top:10px;">Yes, free safe SANS certified installation.</div></div>
+      <div class="card faq-item"><div class="faq-question" style="cursor:pointer;font-weight:600;">+ What gas sizes do you have?</div><div class="faq-answer" style="display:none;padding-top:10px;">5kg, 9kg, 19kg - both refill and new cylinders.</div></div>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <h2>FAQs - Interactive</h2>
+    <div class="faq">
+      <div class="card faq-item"><div class="faq-question" style="cursor:pointer;font-weight:600;">+ How fast is delivery?</div><div class="faq-answer" style="display:none;padding-top:10px;">We deliver in 60 minutes inside Crystal Park, Benoni.</div></div>
+      <div class="card faq-item"><div class="faq-question" style="cursor:pointer;font-weight:600;">+ Is installation included?</div><div class="faq-answer" style="display:none;padding-top:10px;">Yes, free safe SANS certified installation.</div></div>
+      <div class="card faq-item"><div class="faq-question" style="cursor:pointer;font-weight:600;">+ What gas sizes do you have?</div><div class="faq-answer" style="display:none;padding-top:10px;">5kg, 9kg, 19kg - both refill and new cylinders.</div></div>
+    </div>
+  </div>
+</section>
                         <!--Footer Section-->
                         <footer>
                             <p>&copy; 2026 Crystal Park Gas solutions.All rights reserved.</p>
                         </footer>
+                        <script src="js/main.js"></script>
                     </body>
                     </html>

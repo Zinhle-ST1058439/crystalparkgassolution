@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enquiry Received | Crystal Park Gas</title>
+  <style>
+    body{font-family:system-ui;max-width:600px;margin:60px auto;padding:20px;text-align:center}
+    .card{border:2px solid #16a34a;background:#f0fdf4;padding:30px;border-radius:16px}
+    .id{font-family:monospace;background:#000;color:#0f0;padding:6px 12px;border-radius:6px;display:inline-block;margin:10px 0}
+    .steps{display:flex;justify-content:space-between;margin:30px 0;text-align:left}
+    .step{flex:1;padding:0 10px}
+    .step .dot{width:32px;height:32px;border-radius:50%;background:#16a34a;color:white;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+    .step.pending .dot{background:#e2e8f0;color:#64748b}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div style="font-size:48px;">✅</div>
+    <h1>Enquiry Received!</h1>
+    <p>Thank you for contacting Crystal Park Gas</p>
+    <div class="id" id="displayId">ENQ-LOADING...</div>
+    <p id="displayDetails" style="color:#334155;font-size:14px;"></p>
+  </div>
+
+  <div class="steps">
+    <div class="step"><div class="dot">1</div><strong>Received</strong><br><small id="step1">Now</small></div>
+    <div class="step" id="step2Wrap"><div class="dot">2</div><strong>Seen</strong><br><small id="step2">In 2 mins</small></div>
+    <div class="step pending" id="step3Wrap"><div class="dot">3</div><strong>Replied</strong><br><small id="step3">In 5 mins</small></div>
+    <div class="step pending" id="step4Wrap"><div class="dot">4</div><strong>Closed</strong><br><small>After delivery</small></div>
+  </div>
+
+  <div style="background:#f8fafc;padding:16px;border-radius:12px;text-align:left;font-size:13px;margin-top:20px;">
+    <strong>What happens next?</strong>
+    <ol style="margin:8px 0;padding-left:18px;">
+      <li>Admin gets WhatsApp notification instantly</li>
+      <li>We check your enquiry type (price/bulk/complaint)</li>
+      <li>We reply via your preferred method (WhatsApp/Email/Call)</li>
+      <li>If price enquiry - we send quote PDF</li>
+      <li>If complaint - manager calls within 30 mins</li>
+    </ol>
+  </div>
+
+  <p style="margin-top:20px;">
+    <a href="index.html" style="padding:10px 20px;background:#FF6B00;color:white;border-radius:8px;text-decoration:none;">Back Home</a>
+    <a href="enquiry.html" style="padding:10px 20px;border:1px solid #e2e8f0;border-radius:8px;text-decoration:none;margin-left:8px;">New Enquiry</a>
+  </p>
+
+  <script>
+    // Get last enquiry from localStorage
+    const enqs = JSON.parse(localStorage.getItem('enquiries') || '[]');
+    const last = enqs[0];
+    if (last) {
+      document.getElementById('displayId').textContent = last.id;
+      document.getElementById('displayDetails').innerHTML = `
+        Type: ${last.type}<br>
+        Name: ${last.name}<br>
+        Contact: ${last.contactMethod}<br>
+        Date: ${last.date}
+      `;
+      document.getElementById('step1').textContent = last.date;
+    }
+    // Simulate status progression
+    setTimeout(() => {
+      document.getElementById('step2Wrap').classList.remove('pending');
+      document.getElementById('step2').textContent = 'Seen just now';
+      document.getElementById('step2Wrap').querySelector('.dot').style.background = '#2563eb';
+    }, 3000);
+    setTimeout(() => {
+      document.getElementById('step3Wrap').classList.remove('pending');
+      document.getElementById('step3').textContent = 'Replied just now';
+      document.getElementById('step3Wrap').querySelector('.dot').style.background = '#16a34a';
+    }, 7000);
+  </script>
+</body>
+</html>

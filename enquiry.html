@@ -1,51 +1,114 @@
 <!DOCTYPE html>
-<html lang ="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name= "viewpoint" content="width=device-width,intial scale=1.0">
-     <!--Enquiry- page for Crystal Park Gas Solutions-->
-    <title>Enquiry- Crystal Park Gas Solution</title>
-    <link rel ="stylesheet" href ="css./style.css">
-    </head>
-    <body>
-        <header>
-            <h1>Crystal Park Gas Solution</h1>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="products.html">Product</a></li>
-                    <li><a href="enquiry.html">Enquiry</a></li>
-                    <li><a href ="contact.html">Contact</a></li>
-                </ul>
-            </nav>
-        </header>
-        <main>
-            <section>
-                <h2>Place an Enquiry/Order<h2>
-                    <p>Fill in the form below and we will contact you within 30 minutes to confirm your delivery.<P>
-                    <form action ="#" method="post">
-                        <label for ="name">Full Name:</label><br>
-                        <input type="text" id="name" name="name" required><br><br>
-                        <label for ="email">Email Address:</label><br>
-                        <input type ="email" id="email" name="email" required><br><br>
-                        <label for ="phone">Phone Number:</label><br>
-                        <input type="tel" id="phone" name="phone" required><br><br>
-                        <label for ="product">Select Product:</label><br>
-                        <select id ="product" name="product">
-                            <option value="3kg">3kg Gas Cylinder</option>
-                            <option value="9kg">9kg Gas Cylinder</option>
-                            <option value="19kg">19kg Gas Cylinder</option>
-                            <select><br><br>
-                                <label for="message">Delivery Address/Message:</label><br>
-                                <textarea id= "message" name="message"rows="4"></textarea><br><br>
-                                <input type="submit" value="Submit Enquiry">
-                            </form>
-                        </section>
-                    </main>
-                    <footer>
-                        <p>&copy; 2026 Crystal Park Gas Solutions.Allrights reserved.</p>
-                    </footer>
-                </body>
-                </html>
-                            
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enquiry Form | Crystal Park Gas Benoni</title>
+  <link rel="stylesheet" href="css/style.css">
+</head><script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  (function(){ emailjs.init({ publicKey: "YOUR_PUBLIC_KEY_HERE" }); })();
+</script>
+<body>
+
+<div class="container" style="max-width:700px;margin:40px auto;padding:0 16px;">
+  <h1>Gas Enquiry - Crystal Park Gas</h1>
+  <p>Ask about prices, delivery zones, or bulk orders. We reply in 5 mins.</p>
+
+  <form id="enquiryForm" novalidate>
+    
+    <div class="form-group">
+      <label>Enquiry Type *</label>
+      <select id="enquiryType" required>
+        <option value="">-- Select Type --</option>
+        <option value="Price Enquiry">Price Enquiry</option>
+        <option value="Delivery Zone">Delivery Zone Check</option>
+        <option value="Bulk Order 10+">Bulk Order (10+ cylinders)</option>
+        <option value="Safety / Installation">Safety / Installation Question</option>
+        <option value="Complaint">Complaint</option>
+        <option value="Other">Other</option>
+      </select>
+      <small class="error-msg" id="typeError"></small>
+    </div>
+
+    <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="form-group">
+        <label for="enqName">Full Name *</label>
+        <input type="text" id="enqName" placeholder="Thabo Molefe" required>
+        <small class="error-msg" id="enqNameError"></small>
+      </div>
+      <div class="form-group">
+        <label for="enqPhone">Phone *</label>
+        <input type="tel" id="enqPhone" placeholder="0712345678" required>
+        <small class="error-msg" id="enqPhoneError"></small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="enqEmail">Email * (for quote)</label>
+      <input type="email" id="enqEmail" placeholder="thabo@gmail.com" required>
+      <small class="error-msg" id="enqEmailError"></small>
+    </div>
+
+    <div class="form-group">
+      <label for="enqSubject">Subject *</label>
+      <input type="text" id="enqSubject" placeholder="e.g., Need 20x 19kg for restaurant" minlength="5" maxlength="100" required>
+      <small style="float:right;color:#64748b;"><span id="subjectCount">0</span>/100</small>
+      <small class="error-msg" id="subjectError"></small>
+    </div>
+
+    <div class="form-group">
+      <label for="enqMessage">Message *</label>
+      <textarea id="enqMessage" rows="5" placeholder="Write your enquiry in detail (min 20 characters)..." minlength="20" maxlength="500" required></textarea>
+      <small style="float:right;color:#64748b;"><span id="messageCount">0</span>/500</small>
+      <small class="error-msg" id="messageError"></small>
+    </div>
+
+    <div class="form-group">
+      <label for="enqBudget">Budget Range (optional)</label>
+      <select id="enqBudget">
+        <option value="">Select</option>
+        <option value="Under R500">Under R500</option>
+        <option value="R500 - R2000">R500 - R2000</option>
+        <option value="R2000 - R10000">R2000 - R10000</option>
+        <option value="Over R10000">Over R10000 (Bulk)</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Preferred Contact *</label>
+      <div style="display:flex;gap:16px;margin-top:6px;">
+        <label style="font-weight:normal;display:flex;gap:6px;align-items:center;"><input type="radio" name="contactMethod" value="WhatsApp" checked> WhatsApp</label>
+        <label style="font-weight:normal;display:flex;gap:6px;align-items:center;"><input type="radio" name="contactMethod" value="Phone Call"> Phone Call</label>
+        <label style="font-weight:normal;display:flex;gap:6px;align-items:center;"><input type="radio" name="contactMethod" value="Email"> Email</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="enqAttachment">Attach Photo (optional - leak, cylinder)</label>
+      <input type="file" id="enqAttachment" accept="image/*,.pdf">
+      <small class="error-msg" id="fileError"></small>
+      <small style="color:#64748b;">Max 2MB, JPG/PNG/PDF only</small>
+    </div>
+
+    <div class="form-group" style="display:flex;gap:8px;align-items:flex-start;">
+      <input type="checkbox" id="enqPrivacy" required style="width:auto;margin-top:4px;">
+      <label for="enqPrivacy" style="font-weight:normal;font-size:13px;">I agree to privacy policy - My enquiry will be used to respond to me only. *</label>
+    </div>
+    <small class="error-msg" id="privacyError"></small>
+
+    <div id="enquiryStatus" style="display:none;padding:12px;border-radius:8px;margin:12px 0;"></div>
+
+    <button type="submit" id="enqSubmitBtn" class="btn-primary" style="width:100%;padding:14px;">
+      <span id="enqBtnText">📩 Send Enquiry</span>
+    </button>
+
+    <p style="text-align:center;font-size:12px;color:#64748b;margin-top:8px;">⏱️ Avg reply time: 5 minutes | 🔒 Encrypted & Secure</p>
+  </form>
+
+  <p style="margin-top:20px;"><a href="index.html">← Back to Home</a> | <a href="contact-location-map.html">Go to Order Form</a></p>
+</div>
+
+<script src="js/enquiry-validation.js"></script>
+</body>
+</html>
