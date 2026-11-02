@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Enquiries | Crystal Park Gas</title>
+<style>
+body{font-family:system-ui;max-width:900px;margin:20px auto;padding:16px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{border:1px solid #e2e8f0;padding:8px;text-align:left}
+th{background:#f8fafc}
+.badge{padding:2px 8px;border-radius:10px;font-size:11px;color:white}
+.New{background:#f59e0b}.Seen{background:#3b82f6}.Replied{background:#16a34a}
+</style>
+</head>
+<body>
+<h1>Admin - Enquiry Process Dashboard</h1>
+<p>Data from localStorage (simulates real database)</p>
+<div style="display:flex;gap:12px;margin:16px 0;">
+  <div style="background:#fef3c7;padding:12px;border-radius:8px;flex:1;">Total: <strong id="total">0</strong></div>
+  <div style="background:#dbeafe;padding:12px;border-radius:8px;flex:1;">New: <strong id="new">0</strong></div>
+  <div style="background:#dcfce7;padding:12px;border-radius:8px;flex:1;">Replied: <strong id="replied">0</strong></div>
+</div>
+<button onclick="clearAll()" style="padding:8px 12px;border:1px solid #ef4444;color:#ef4444;background:white;border-radius:6px;cursor:pointer;">Clear All (Test)</button>
+<a href="enquiry.html" style="padding:8px 12px;background:#FF6B00;color:white;border-radius:6px;text-decoration:none;margin-left:8px;">New Enquiry</a>
+
+<table id="enqTable" style="margin-top:16px;">
+<thead><tr><th>ID</th><th>Date</th><th>Type</th><th>Name</th><th>Contact</th><th>Subject</th><th>Status</th><th>Action</th></tr></thead>
+<tbody id="tbody"></tbody>
+</table>
+
+<script>
+function load() {
+  const enqs = JSON.parse(localStorage.getItem('enquiries') || '[]');
+  document.getElementById('total').textContent = enqs.length;
+  document.getElementById('new').textContent = enqs.filter(e=>e.status==='New').length;
+  document.getElementById('replied').textContent = enqs.filter(e=>e.status==='Replied').length;
+  
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = enqs.map((e,i) => `
+    <tr>
+      <td style="font-family:monospace;font-size:11px;">${e.id}</td>
+      <td>${e.date}</td>
+      <td>${e.type}</td>
+      <td>${e.name}<br><small>${e.phone}</small></td>
+      <td>${e.contactMethod}<br><small>${e.email}</small></td>
+      <td><strong>${e.subject}</strong><br><small>${e.message.substring(0,60)}...</small></td>
+      <td><span class="badge ${e.status}">${e.status}</span></td>
+      <td>
+        <button onclick="updateStatus(${i},'Seen')" style="font-size:11px;padding:4px;">Seen</button>
+        <button onclick="updateStatus(${i},'Replied')" style="font-size:11px;padding:4px;background:#16a34a;color:white;border:none;border-radius:4px;">Reply</button>
+        <button onclick="deleteOne(${i})" style="font-size:11px;padding:4px;color:#ef4444;">Del</button>
+      </td>
+    </tr>
+  `).join('') || '<tr><td colspan="8" style="text-align:center;color:#64748b;">No enquiries yet. Go to enquiry.html</td></tr>';
+}
+function updateStatus(idx, status) {
+  const enqs = JSON.parse(localStorage.getItem('enquiries') || '[]');
+  enqs[idx].status = status;
+  enqs[idx].repliedAt = new Date().toLocaleString('en-ZA');
+  localStorage.setItem('enquiries', JSON.stringify(enqs));
+  load();
+}
+function deleteOne(idx) {
+  if(!confirm('Delete?')) return;
+  const enqs = JSON.parse(localStorage.getItem('enquiries') || '[]');
+  enqs.splice(idx,1);
+  localStorage.setItem('enquiries', JSON.stringify(enqs));
+  load();
+}
+function clearAll() {
+  if(!confirm('Clear all enquiries?')) return;
+  localStorage.removeItem('enquiries');
+  load();
+}
+load();
+</script>
+</body>
+</html>

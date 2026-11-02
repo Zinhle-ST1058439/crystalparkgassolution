@@ -1,0 +1,1025 @@
+// ======================================
+// Crystal Park Gas - Interactive Elements
+// ======================================
+
+// 1. MOBILE MENU
+const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('.nav-links');
+if (hamburger && navLinks) {
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    hamburger.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+  });
+}
+
+// 2. FAQ ACCORDION - Interactive Q&A
+document.querySelectorAll('.faq-question').forEach(q => {
+  q.addEventListener('click', () => {
+    const answer = q.nextElementSibling;
+    const isOpen = answer.style.display === 'block';
+    
+    // Close all others
+    document.querySelectorAll('.faq-answer').forEach(a => a.style.display = 'none');
+    
+    // Open clicked one
+    answer.style.display = isOpen ? 'none' : 'block';
+    q.textContent = isOpen ? q.textContent.replace('−', '+') : q.textContent.replace('+', '−');
+  });
+});
+
+// 3. GAS CALCULATOR - How much gas do I need?
+const calcBtn = document.getElementById('calcGasBtn');
+if (calcBtn) {
+  calcBtn.addEventListener('click', () => {
+    const people = document.getElementById('peopleCount').value;
+    const result = document.getElementById('calcResult');
+    if (!people) {
+      result.textContent = 'Enter number of people';
+      return;
+    }
+    let recommendation = '';
+    if (people <= 2) recommendation = '5kg - Enough for 1 month (small family)';
+    else if (people <= 4) recommendation = '9kg - Enough for 1 month (medium family)';
+    else recommendation = '19kg - Enough for 1 month (large family / cooking daily)';
+    
+    result.innerHTML = `🔥 Recommended: <strong>${recommendation}</strong>`;
+    result.style.background = '#fff7ed';
+    result.style.padding = '12px';
+    result.style.borderRadius = '8px';
+  });
+}
+
+// 4. ORDER FORM + LIVE PRICE + VALIDATION
+const form = document.getElementById('orderForm');
+const gasType = document.getElementById('gasType');
+const priceDisplay = document.getElementById('priceDisplay');
+
+if (gasType && priceDisplay) {
+  gasType.addEventListener('change', () => {
+    const prices = {
+      '19kg-refill': 'R450', '19kg-new': 'R950',
+      '9kg-refill': 'R250', '9kg-new': 'R650',
+      '5kg-refill': 'R180', '5kg-new': 'R450'
+    };
+    priceDisplay.textContent = prices[gasType.value] ? `Price: ${prices[gasType.value]}` : 'Select gas type';
+    priceDisplay.style.color = '#FF6B00';
+    priceDisplay.style.fontWeight = '700';
+  });
+}
+
+if (form) {
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    
+    if (name.length < 3 || phone.length < 10 || !gasType.value) {
+      alert('⚠️ Please fill all fields correctly');
+      return;
+    }
+    // Button loading effect
+    const btn = form.querySelector('button');
+    btn.textContent = 'Sending... ⏳';
+    setTimeout(() => {
+      alert(`✅ Thanks ${name}! Order received. We will call ${phone} in 10 mins.`);
+      btn.textContent = 'Order Now';
+      form.reset();
+      priceDisplay.textContent = 'Select gas type';
+    }, 800);
+  });
+}
+
+// 5. LIVE STOCK INDICATOR - Changes color
+document.querySelectorAll('.stock-badge').forEach(badge => {
+  badge.addEventListener('mouseenter', () => {
+    badge.textContent = '🔥 High Demand Today!';
+    badge.style.background = '#fee2e2';
+  });
+  badge.addEventListener('mouseleave', () => {
+    badge.textContent = '✅ In Stock';
+    badge.style.background = '#dcfce7';
+  });
+});
+
+// 6. SCROLL REVEAL + HEADER SHADOW
+window.addEventListener('scroll', () => {
+  const header = document.querySelector('.site-header');
+  if (header) {
+    header.style.boxShadow = window.scrollY > 20 ? '0 8px 30px rgba(10,46,110,0.12)' : '0 2px 20px rgba(0,0,0,0.05)';
+  }
+  // Animate cards when scrolling
+  document.querySelectorAll('.card').forEach(card => {
+    if (card.getBoundingClientRect().top < window.innerHeight - 50) {
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }
+  });
+});
+
+console.log;
+// ======================================
+// ANIMATIONS WITH JAVASCRIPT
+// ======================================
+
+// 1. Scroll Progress Bar
+const progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  if (!progressBar) return;
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = (scrollTop / docHeight) * 100;
+  progressBar.style.width = progress + '%';
+});
+
+// 2. Scroll Reveal - Intersection Observer (Advanced)
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('reveal');
+      // Stagger delay for grids
+      const index = Array.from(entry.target.parentNode.children).indexOf(entry.target);
+      entry.target.style.transitionDelay = `${index * 0.1}s`;
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.card, .gallery-item, .faq-item').forEach(el => {
+  observer.observe(el);
+});
+
+// 3. Price pulse animation on change
+const priceEl = document.getElementById('priceDisplay');
+if (priceEl) {
+  const originalObserver = new MutationObserver(() => {
+    priceEl.classList.remove('price-pulse');
+    void priceEl.offsetWidth; // Trigger reflow
+    priceEl.classList.add('price-pulse');
+  });
+  originalObserver.observe(priceEl, { childList: true, characterData: true, subtree: true });
+}
+
+// 4. Button click ripple effect
+document.querySelectorAll('.btn-primary').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    const ripple = document.createElement('span');
+    ripple.style.position = 'absolute';
+    ripple.style.width = '20px';
+    ripple.style.height = '20px';
+    ripple.style.background = 'rgba(255,255,255,0.5)';
+    ripple.style.borderRadius = '50%';
+    ripple.style.transform = 'translate(-50%, -50%)';
+    ripple.style.left = e.offsetX + 'px';
+    ripple.style.top = e.offsetY + 'px';
+    ripple.style.animation = 'rippleAnim 0.6s linear';
+    this.style.position = 'relative';
+    this.style.overflow = 'hidden';
+    this.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  });
+});
+
+// Add ripple keyframes dynamically
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes rippleAnim {
+    to { transform: translate(-50%, -50%) scale(15); opacity: 0; }
+  }
+`;
+document.head.appendChild(style);
+
+// 5. Hamburger rotation animation
+if (hamburger) {
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+  });
+}
+
+// 6. Typing effect for hero (optional)
+const heroTitle = document.querySelector('.hero h1');
+if (heroTitle && heroTitle.textContent.includes('Crystal Park')) {
+  const text = heroTitle.textContent;
+  heroTitle.textContent = '';
+  let i = 0;
+  const typing = setInterval(() => {
+    heroTitle.textContent += text[i];
+    i++;
+    if (i >= text.length) clearInterval(typing);
+  }, 40);
+}
+// ======================================
+// INTERACTIVE MAP - Leaflet
+// Crystal Park, Benoni -26.177, 28.320
+// ======================================
+
+const mapElement = document.getElementById('map');
+if (mapElement && typeof L !== 'undefined') {
+  // 1. Initialize map centered on Crystal Park
+  const crystalParkCoords = [-26.177, 28.320]; // Crystal Park, Benoni
+  const map = L.map('map').setView(crystalParkCoords, 13);
+
+  // 2. Add tile layer (free OpenStreetMap)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap | Crystal Park Gas'
+  }).addTo(map);
+
+  // 3. Custom icons
+  const gasIcon = L.divIcon({
+    html: '🔥',
+    className: 'custom-icon',
+    iconSize: [30, 30],
+  });
+
+  // 4. Markers with popups - Advanced DOM in popups
+  const locations = {
+    crystal: { coords: [-26.177, 28.320], title: 'Crystal Park Gas HQ', time: '10 min delivery', color: '#dcfce7' },
+    benoni: { coords: [-26.188, 28.304], title: 'Benoni Central', time: '25 min delivery', color: '#fef3c7' },
+    boksburg: { coords: [-26.205, 28.256], title: 'Boksburg', time: '35 min delivery', color: '#fee2e2' },
+    brakpan: { coords: [-26.237, 28.369], title: 'Brakpan', time: '40 min delivery', color: '#fee2e2' },
+  };
+
+  const markers = {};
+  Object.keys(locations).forEach(key => {
+    const loc = locations[key];
+    const marker = L.marker(loc.coords).addTo(map);
+    marker.bindPopup(`
+      <div style="text-align:center;">
+        <strong>${loc.title}</strong><br>
+        ⏰ ${loc.time}<br>
+        <span style="background:${loc.color};padding:2px 8px;border-radius:10px;font-size:11px;">${key === 'crystal' ? 'FREE DELIVERY' : 'R30 Delivery'}</span><br>
+        <button onclick="document.getElementById('address').value='${loc.title}'; alert('Address filled!')" style="margin-top:6px;background:#FF6B00;color:white;border:none;padding:4px 10px;border-radius:12px;cursor:pointer;">Set as Delivery Address</button>
+      </div>
+    `);
+    markers[key] = marker;
+  });
+
+  // 5. Delivery zone circle (Crystal Park 3km free)
+  const freeZone = L.circle(crystalParkCoords, {
+    color: '#16a34a',
+    fillColor: '#dcfce7',
+    fillOpacity: 0.3,
+    radius: 3000 // 3km
+  }).addTo(map);
+  freeZone.bindPopup('🟢 FREE Delivery Zone - 3km radius from Crystal Park');
+
+  // 6. Zone buttons - change view
+  document.querySelectorAll('.map-btn[data-zone]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.map-btn[data-zone]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      const zone = btn.dataset.zone;
+      const info = document.getElementById('distanceInfo');
+      
+      if (zone === 'crystal') {
+        map.setView(crystalParkCoords, 14);
+        markers.crystal.openPopup();
+        info.textContent = '📍 Crystal Park: FREE delivery, 10-15 mins';
+      } else if (zone === 'benoni') {
+        map.setView(locations.benoni.coords, 13);
+        markers.benoni.openPopup();
+        info.textContent = '📍 Benoni: R30 delivery, 25 mins average';
+      } else if (zone === 'delivery') {
+        map.setView(crystalParkCoords, 11);
+        freeZone.openPopup();
+        info.textContent = '🟢 Green circle = FREE delivery (3km). Outside = R30-R50';
+      }
+    });
+  });
+
+  // 7. Locate user button - Geolocation API
+  const locateBtn = document.getElementById('locateBtn');
+  if (locateBtn) {
+    locateBtn.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        alert('Geolocation not supported');
+        return;
+      }
+      locateBtn.textContent = 'Locating...';
+      navigator.geolocation.getCurrentPosition(pos => {
+        const userCoords = [pos.coords.latitude, pos.coords.longitude];
+        L.marker(userCoords, { icon: L.divIcon({ html: '📍', iconSize: [30,30] }) })
+          .addTo(map)
+          .bindPopup('You are here!<br>We can deliver to you')
+          .openPopup();
+        map.setView(userCoords, 13);
+        // Calculate distance to HQ
+        const distance = map.distance(userCoords, crystalParkCoords) / 1000;
+        document.getElementById('distanceInfo').textContent = `📏 You are ${distance.toFixed(1)}km from HQ - ${distance < 3 ? 'FREE delivery!' : `R${Math.min(50, Math.round(distance*5))} delivery`}`;
+        locateBtn.textContent = '📍 My Location';
+      }, () => {
+        alert('Could not get location - allow location permission');
+        locateBtn.textContent = '📍 My Location';
+      });
+    });
+  }
+
+  // 8. Click on map to set address
+  map.on('click', (e) => {
+    const lat = e.latlng.lat.toFixed(4);
+    const lng = e.latlng.lng.toFixed(4);
+    L.popup()
+      .setLatLng(e.latlng)
+      .setContent(`Clicked: ${lat}, ${lng}<br><button onclick="document.getElementById('address').value='Lat ${lat}, Lng ${lng}'" style="background:#0A2E6E;color:white;border:none;padding:4px 8px;border-radius:8px;margin-top:4px;">Use this location</button>`)
+      .openOn(map);
+  });
+
+  console.log('Leaflet Map Loaded ✓ - Crystal Park centered');
+}
+// ======================================
+// jQUERY - Tabs, Accordion, Modals
+// ======================================
+
+// Make sure jQuery loaded
+if (typeof jQuery !== 'undefined') {
+  
+  $(document).ready(function() {
+    
+    // 1. TABS - Click tab to show content
+    $('.tab-btn').on('click', function() {
+      const tabId = $(this).data('tab');
+      
+      // Remove active from all
+      $('.tab-btn').removeClass('active');
+      $('.tab-panel').removeClass('active').slideUp(200);
+      
+      // Add active to clicked
+      $(this).addClass('active');
+      $('#' + tabId).addClass('active').slideDown(300);
+    });
+
+    // 2. ACCORDION - Advanced slide animation
+    $('.accordion-header').on('click', function() {
+      const body = $(this).next('.accordion-body');
+      const icon = $(this).find('span');
+      const isOpen = body.is(':visible');
+      
+      // Close all others (only one open at a time)
+      $('.accordion-body').slideUp(250);
+      $('.accordion-header').removeClass('active').find('span').text('+');
+      
+      // Open clicked if it was closed
+      if (!isOpen) {
+        body.slideDown(250);
+        $(this).addClass('active').find('span').text('−');
+      }
+    });
+
+    // 3. MODALS - Open, Close, Effects
+    function openModal(gasType) {
+      $('#modalTitle').text('🔥 Order ' + gasType + ' Gas');
+      $('#modalText').text('You selected ' + gasType + '. Fill details to order via WhatsApp.');
+      $('#orderModal').addClass('active').hide().fadeIn(300);
+      $('body').css('overflow', 'hidden');
+    }
+
+    function closeModal() {
+      $('#orderModal').fadeOut(200, function() {
+        $(this).removeClass('active');
+      });
+      $('body').css('overflow', '');
+    }
+
+    // Open modal when Order button clicked
+    $('.open-modal').on('click', function() {
+      const gas = $(this).data('gas');
+      openModal(gas);
+    });
+
+    // Close modal: X button, outside click, ESC
+    $('.modal-close').on('click', closeModal);
+    
+    $('#orderModal').on('click', function(e) {
+      if ($(e.target).is('#orderModal')) {
+        closeModal();
+      }
+    });
+
+    $(document).on('keydown', function(e) {
+      if (e.key === 'Escape' && $('#orderModal').hasClass('active')) {
+        closeModal();
+      }
+    });
+
+    // 4. Modal form submit with animation
+    $('#modalForm').on('submit', function(e) {
+      e.preventDefault();
+      const btn = $(this).find('button');
+      btn.text('Sending... ⏳').prop('disabled', true);
+      
+      setTimeout(() => {
+        btn.text('✅ Order Sent!');
+        btn.css('background', '#16a34a');
+        
+        setTimeout(() => {
+          closeModal();
+          btn.text('Confirm Order via WhatsApp').prop('disabled', false).css('background', '');
+          $(this)[0].reset();
+          // Success toast
+          $('body').append('<div id="toast" style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#0A2E6E;color:white;padding:12px 20px;border-radius:25px;z-index:10001;">✅ Order received! We will call you.</div>');
+          $('#toast').fadeIn().delay(3000).fadeOut(400, function() { $(this).remove(); });
+        }, 800);
+      }, 1000);
+    });
+
+    // 5. Extra jQuery effects - Chain animations
+    $('.card').hover(
+      function() { $(this).stop().animate({ marginTop: '-5px' }, 200); },
+      function() { $(this).stop().animate({ marginTop: '0px' }, 200); }
+    );
+
+    console.log('jQuery Tabs + Accordion + Modals Loaded ✓');
+  });
+
+} else {
+  console.log('jQuery not loaded - check CDN');
+}
+// ======================================
+// DYNAMIC CONTENT - Products & Posts Loading
+// ======================================
+
+const productsGrid = document.getElementById('productsGrid');
+const postsList = document.getElementById('postsList');
+const searchInput = document.getElementById('searchInput');
+const filterSize = document.getElementById('filterSize');
+const filterType = document.getElementById('filterType');
+const sortPriceBtn = document.getElementById('sortPrice');
+const productCountEl = document.getElementById('productCount');
+const loadingStatus = document.getElementById('loadingStatus');
+const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+let displayedCount = 6;
+let sortAsc = true;
+let filteredProducts = [];
+
+// 1. Simulate loading delay (like fetching from server)
+function showSkeletons() {
+  if (!productsGrid) return;
+  productsGrid.innerHTML = '';
+  for (let i = 0; i < 6; i++) {
+    const skel = document.createElement('div');
+    skel.className = 'skeleton';
+    productsGrid.appendChild(skel);
+  }
+}
+
+// 2. Render products - Advanced DOM creation
+function renderProducts(products) {
+  if (!productsGrid) return;
+  productsGrid.innerHTML = '';
+  
+  const toShow = products.slice(0, displayedCount);
+  
+  toShow.forEach((product, index) => {
+    const card = document.createElement('div');
+    card.className = `card product-card ${product.popular ? 'popular' : ''}`;
+    card.style.animationDelay = `${index * 0.05}s`;
+    card.innerHTML = `
+      <div class="badge">${product.badge}</div>
+      <div style="font-size:40px;text-align:center;margin:20px 0;">${product.img}</div>
+      <h3>${product.size.toUpperCase()} ${product.type.toUpperCase()}</h3>
+      <p style="font-size:13px;color:#64748b;">${product.desc}</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0;">
+        <div>
+          <span class="price">R${product.price}</span>
+          ${product.oldPrice ? `<span class="old-price">R${product.oldPrice}</span>` : ''}
+        </div>
+        <span style="font-size:12px;background:${product.stock < 10 ? '#fee2e2' : '#dcfce7'};padding:4px 8px;border-radius:10px;">${product.stock} left</span>
+      </div>
+      <button class="btn-primary add-to-cart" data-id="${product.id}" style="width:100%;">Add to Order</button>
+    `;
+    productsGrid.appendChild(card);
+  });
+
+  // Update count
+  if (productCountEl) productCountEl.textContent = `Showing ${toShow.length} of ${products.length} products`;
+  if (loadingStatus) loadingStatus.textContent = '● Live data';
+  if (loadMoreBtn) loadMoreBtn.style.display = toShow.length >= products.length ? 'none' : 'inline-block';
+
+  // Add event listeners to new buttons - Event Delegation
+  document.querySelectorAll('.add-to-cart').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const id = e.target.dataset.id;
+      const prod = productsData.find(p => p.id == id);
+      e.target.textContent = '✅ Added!';
+      e.target.style.background = '#16a34a';
+      setTimeout(() => {
+        e.target.textContent = 'Add to Order';
+        e.target.style.background = '';
+      }, 1500);
+      
+      // Add to cart logic - save to localStorage
+      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      cart.push(prod);
+      localStorage.setItem('cart', JSON.stringify(cart));
+    });
+  });
+}
+
+// 3. Render posts
+function renderPosts() {
+  if (!postsList || typeof postsData === 'undefined') return;
+  postsList.innerHTML = '';
+  postsData.forEach(post => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:#94a3b8;">
+        <span>${post.category}</span><span>${post.date}</span>
+      </div>
+      <h4 style="margin:8px 0;">${post.title}</h4>
+      <div style="display:flex;justify-content:space-between;font-size:12px;">
+        <span>By ${post.author}</span>
+        <button class="like-btn" data-id="${post.id}" style="background:none;border:none;cursor:pointer;">❤️ ${post.likes}</button>
+      </div>
+    `;
+    postsList.appendChild(card);
+  });
+  
+  // Like button - Dynamic update
+  document.querySelectorAll('.like-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      let likes = parseInt(this.textContent.match(/\d+/)[0]);
+      this.textContent = `❤️ ${likes + 1}`;
+      this.style.color = '#ef4444';
+    });
+  });
+}
+
+// 4. Filter & Search - Real-time
+function applyFilters() {
+  if (typeof productsData === 'undefined') return;
+  const search = searchInput ? searchInput.value.toLowerCase() : '';
+  const size = filterSize ? filterSize.value : 'all';
+  const type = filterType ? filterType.value : 'all';
+
+  filteredProducts = productsData.filter(p => {
+    const matchesSearch = `${p.size} ${p.type} ${p.desc}`.toLowerCase().includes(search);
+    const matchesSize = size === 'all' || p.size === size || p.size === 'all';
+    const matchesType = type === 'all' || p.type === type;
+    return matchesSearch && matchesSize && matchesType;
+  });
+
+  if (sortAsc !== null) {
+    filteredProducts.sort((a, b) => sortAsc ? a.price - b.price : b.price - a.price);
+  }
+
+  renderProducts(filteredProducts);
+}
+
+// 5. Event listeners
+if (productsGrid && typeof productsData !== 'undefined') {
+  showSkeletons();
+  
+  // Simulate API fetch delay 800ms
+  setTimeout(() => {
+    filteredProducts = [...productsData];
+    renderProducts(filteredProducts);
+    renderPosts();
+  }, 800);
+
+  if (searchInput) searchInput.addEventListener('input', applyFilters);
+  if (filterSize) filterSize.addEventListener('change', applyFilters);
+  if (filterType) filterType.addEventListener('change', applyFilters);
+  
+  if (sortPriceBtn) {
+    sortPriceBtn.addEventListener('click', () => {
+      sortAsc = !sortAsc;
+      sortPriceBtn.textContent = sortAsc ? 'Sort by Price ↑' : 'Sort by Price ↓';
+      applyFilters();
+    });
+  }
+
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', () => {
+      displayedCount += 3;
+      renderProducts(filteredProducts);
+    });
+  }
+}
+// ======================================
+// SEARCH FUNCTION - Filter All Content
+// ======================================
+
+const globalSearch = document.getElementById('globalSearch');
+const clearSearchBtn = document.getElementById('clearSearch');
+const searchStats = document.getElementById('searchStats');
+const noResults = document.getElementById('noResults');
+const noResultsQuery = document.getElementById('noResultsQuery');
+const resetSearchBtn = document.getElementById('resetSearch');
+const searchTags = document.querySelectorAll('.search-tag');
+
+let searchTimeout;
+
+// Debounce - wait 300ms after typing (performance)
+function debounce(func, delay) {
+  return function(...args) {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+
+// Highlight matched text
+function highlightText(text, query) {
+  if (!query) return text;
+  const regex = new RegExp(`(${query})`, 'gi');
+  return text.replace(regex, '<span class="highlight">$1</span>');
+}
+
+// Main search function
+function performSearch(query) {
+  query = query.trim().toLowerCase();
+  
+  // Show/hide clear button
+  if (clearSearchBtn) clearSearchBtn.style.display = query ? 'block' : 'none';
+
+  // If using productsData array (dynamic products)
+  if (typeof productsData !== 'undefined' && typeof applyFilters === 'function') {
+    // Use existing filter system
+    if (searchInput) searchInput.value = query;
+    applyFilters();
+  }
+
+  // Also filter DOM elements: cards, posts, gallery, FAQ
+  const searchableItems = document.querySelectorAll('.product-card, .card, .gallery-item, .faq-item, .accordion-item, [data-searchable]');
+  let visibleCount = 0;
+
+  searchableItems.forEach(item => {
+    // Skip the search bar itself and noResults card
+    if (item.id === 'noResults' || item.closest('#searchTags') || item.querySelector('#globalSearch')) return;
+
+    const text = (item.textContent + ' ' + (item.dataset.tags || '')).toLowerCase();
+    const isMatch = query === '' || text.includes(query);
+
+    if (isMatch) {
+      item.classList.remove('search-hidden');
+      visibleCount++;
+      
+      // Highlight if query exists and item has title
+      if (query) {
+        const title = item.querySelector('h3, h4, .faq-question, .accordion-header');
+        if (title && !title.dataset.original) {
+          title.dataset.original = title.innerHTML;
+        }
+        // Don't highlight to avoid breaking HTML, just count
+      } else {
+        // Restore original when cleared
+        const title = item.querySelector('h3, h4');
+        if (title && title.dataset.original) {
+          title.innerHTML = title.dataset.original;
+          delete title.dataset.original;
+        }
+      }
+    } else {
+      item.classList.add('search-hidden');
+    }
+  });
+
+  // Handle dynamic products grid count
+  if (typeof filteredProducts !== 'undefined' && globalSearch) {
+    // Already handled by applyFilters
+    visibleCount = filteredProducts.length;
+  }
+
+  // Update stats
+  if (searchStats) {
+    if (query === '') {
+      searchStats.textContent = 'Ready to search';
+    } else {
+      searchStats.textContent = `${visibleCount} results for "${query}"`;
+    }
+  }
+
+  // Show no results message
+  if (noResults) {
+    if (query !== '' && visibleCount === 0) {
+      noResults.style.display = 'block';
+      if (noResultsQuery) noResultsQuery.textContent = query;
+      // Hide grids to show no results clearly
+      const grids = document.querySelectorAll('#productsGrid, #postsList, #gallery, .grid');
+      grids.forEach(g => { if (query) g.style.opacity = '0.3'; else g.style.opacity = '1'; });
+    } else {
+      noResults.style.display = 'none';
+      const grids = document.querySelectorAll('#productsGrid, #postsList, #gallery, .grid');
+      grids.forEach(g => g.style.opacity = '1');
+    }
+  }
+
+  // Update active tag
+  searchTags.forEach(tag => {
+    tag.classList.toggle('active', tag.dataset.q.toLowerCase() === query);
+  });
+}
+
+// Event listeners
+if (globalSearch) {
+  // Real-time search with debounce
+  globalSearch.addEventListener('input', debounce((e) => {
+    performSearch(e.target.value);
+  }, 300));
+
+  // Instant search on Enter
+  globalSearch.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      clearTimeout(searchTimeout);
+      performSearch(e.target.value);
+    }
+  });
+}
+
+// Clear button
+if (clearSearchBtn) {
+  clearSearchBtn.addEventListener('click', () => {
+    globalSearch.value = '';
+    performSearch('');
+    globalSearch.focus();
+  });
+}
+
+if (resetSearchBtn) {
+  resetSearchBtn.addEventListener('click', () => {
+    globalSearch.value = '';
+    performSearch('');
+    // Also reset other filters
+    if (filterSize) filterSize.value = 'all';
+    if (filterType) filterType.value = 'all';
+    if (searchInput) searchInput.value = '';
+    if (typeof applyFilters === 'function') applyFilters();
+  });
+}
+
+// Clickable tags - quick search
+searchTags.forEach(tag => {
+  tag.addEventListener('click', () => {
+    const q = tag.dataset.q;
+    globalSearch.value = q;
+    performSearch(q);
+    globalSearch.focus();
+  });
+});
+
+// Filter by URL param ?q=19kg (advanced)
+const urlParams = new URLSearchParams(window.location.search);
+const queryParam = urlParams.get('q');
+if (queryParam && globalSearch) {
+  globalSearch.value = queryParam;
+  performSearch(queryParam);
+}
+
+console.log('Search Function Loaded ✓ - Debounce + Highlight + Tags');
+// SEO: Update page title dynamically for filtered products
+if (globalSearch) {
+  globalSearch.addEventListener('input', () => {
+    const q = globalSearch.value;
+    if (q) {
+      document.title = `${q} - Gas Search | Crystal Park Gas Benoni`;
+    } else {
+      document.title = 'Crystal Park Gas - 60 Min Gas Delivery Benoni';
+    }
+  });
+}
+// ======================================
+// FORM FUNCTIONALITY & VALIDATION
+// Advanced: regex, real-time, localStorage
+// ======================================
+
+const form = document.getElementById('gasOrderForm');
+if (form) {
+  const nameInput = document.getElementById('customerName');
+  const phoneInput = document.getElementById('customerPhone');
+  const emailInput = document.getElementById('customerEmail');
+  const sizeInput = document.getElementById('gasSize');
+  const qtyInput = document.getElementById('quantity');
+  const addressInput = document.getElementById('address');
+  const termsInput = document.getElementById('terms');
+  const submitBtn = document.getElementById('submitBtn');
+  const btnText = document.getElementById('btnText');
+  const formStatus = document.getElementById('formStatus');
+
+  // Regex patterns
+  const patterns = {
+    name: /^[A-Za-z\s'-]{2,50}$/, // 2-50 letters, space, hyphen
+    phone: /^(\+27|27|0)[0-9]{9}$/, // SA phone: 0712345678, +27712345678
+    email: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+    address: /^.{10,200}$/ // 10-200 chars
+  };
+
+  // Error messages
+  const errors = {
+    name: 'Enter 2-50 letters only (e.g., Thabo Molefe)',
+    phone: 'Enter valid SA number: 0712345678 or +27712345678',
+    email: 'Enter valid email: name@gmail.com',
+    size: 'Please select gas size',
+    qty: 'Quantity must be 1-10',
+    address: 'Address too short - min 10 characters (e.g., 123 Crystal Park, Benoni)',
+    terms: 'You must agree to safety check'
+  };
+
+  // Show error
+  function showError(input, errorId, message) {
+    input.classList.add('invalid');
+    input.classList.remove('valid');
+    const errorEl = document.getElementById(errorId);
+    if (errorEl) {
+      errorEl.textContent = message;
+      errorEl.classList.add('show');
+    }
+  }
+
+  // Show success
+  function showSuccess(input, errorId) {
+    input.classList.remove('invalid');
+    input.classList.add('valid');
+    const errorEl = document.getElementById(errorId);
+    if (errorEl) {
+      errorEl.classList.remove('show');
+    }
+  }
+
+  // Validate single field
+  function validateField(input, pattern, errorId, errorMsg, required = true) {
+    const value = input.value.trim();
+    
+    if (required && !value) {
+      showError(input, errorId, 'This field is required *');
+      return false;
+    }
+    if (!required && !value) {
+      input.classList.remove('invalid', 'valid');
+      document.getElementById(errorId)?.classList.remove('show');
+      return true;
+    }
+    if (pattern && !pattern.test(value)) {
+      showError(input, errorId, errorMsg);
+      return false;
+    }
+    
+    showSuccess(input, errorId);
+    return true;
+  }
+
+  // Real-time validation (on input + blur)
+  if (nameInput) {
+    nameInput.addEventListener('input', () => validateField(nameInput, patterns.name, 'nameError', errors.name));
+    nameInput.addEventListener('blur', () => validateField(nameInput, patterns.name, 'nameError', errors.name));
+  }
+
+  if (phoneInput) {
+    // Auto-format phone
+    phoneInput.addEventListener('input', () => {
+      let val = phoneInput.value.replace(/\D/g, '');
+      if (val.startsWith('27')) val = '+' + val;
+      // Don't auto-format too aggressively, just validate
+      validateField(phoneInput, patterns.phone, 'phoneError', errors.phone);
+    });
+  }
+
+  if (emailInput) {
+    emailInput.addEventListener('blur', () => validateField(emailInput, patterns.email, 'emailError', errors.email, false));
+  }
+
+  if (addressInput) {
+    addressInput.addEventListener('input', () => validateField(addressInput, patterns.address, 'addressError', errors.address));
+  }
+
+  // Load saved data from localStorage (UX improvement)
+  const savedData = JSON.parse(localStorage.getItem('gasFormData') || '{}');
+  if (savedData.name && nameInput) nameInput.value = savedData.name;
+  if (savedData.phone && phoneInput) phoneInput.value = savedData.phone;
+  if (savedData.address && addressInput) addressInput.value = savedData.address;
+
+  // Auto-save as user types
+  form.addEventListener('input', () => {
+    const data = {
+      name: nameInput?.value || '',
+      phone: phoneInput?.value || '',
+      address: addressInput?.value || ''
+    };
+    localStorage.setItem('gasFormData', JSON.stringify(data));
+  });
+
+  // FORM SUBMIT - Main validation
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    let isValid = true;
+
+    // Validate all required fields
+    isValid &= validateField(nameInput, patterns.name, 'nameError', errors.name);
+    isValid &= validateField(phoneInput, patterns.phone, 'phoneError', errors.phone);
+    isValid &= validateField(emailInput, patterns.email, 'emailError', errors.email, false);
+    isValid &= validateField(addressInput, patterns.address, 'addressError', errors.address);
+    
+    if (!sizeInput.value) {
+      showError(sizeInput, 'sizeError', errors.size);
+      isValid = false;
+    } else {
+      showSuccess(sizeInput, 'sizeError');
+    }
+
+    const qty = parseInt(qtyInput.value);
+    if (isNaN(qty) || qty < 1 || qty > 10) {
+      showError(qtyInput, 'qtyError', errors.qty);
+      isValid = false;
+    } else {
+      showSuccess(qtyInput, 'qtyError');
+    }
+
+    if (!termsInput.checked) {
+      document.getElementById('termsError').textContent = errors.terms;
+      document.getElementById('termsError').classList.add('show');
+      isValid = false;
+    } else {
+      document.getElementById('termsError').classList.remove('show');
+    }
+
+    if (!isValid) {
+      formStatus.className = '';
+      formStatus.classList.add('error');
+      formStatus.style.display = 'block';
+      formStatus.textContent = '❌ Please fix errors above before submitting';
+      formStatus.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    // All valid - Show loading
+    submitBtn.disabled = true;
+    btnText.textContent = '⏳ Processing...';
+    formStatus.className = '';
+    formStatus.style.display = 'block';
+    formStatus.classList.add('success');
+    formStatus.textContent = '✅ Validated! Opening WhatsApp...';
+
+    // Prepare WhatsApp message - Advanced
+    const formData = {
+      name: nameInput.value.trim(),
+      phone: phoneInput.value.trim(),
+      email: emailInput.value.trim() || 'Not provided',
+      gas: sizeInput.value,
+      qty: qtyInput.value,
+      address: addressInput.value.trim(),
+      time: document.getElementById('deliveryTime').value,
+      date: new Date().toLocaleString('en-ZA')
+    };
+
+    // Save order to localStorage (order history)
+    let orders = JSON.parse(localStorage.getItem('gasOrders') || '[]');
+    orders.push({ ...formData, id: Date.now() });
+    localStorage.setItem('gasOrders', JSON.stringify(orders));
+
+    // Build WhatsApp message
+    const whatsappMessage = `🔥 NEW GAS ORDER - Crystal Park Gas\n\n` +
+      `👤 Name: ${formData.name}\n` +
+      `📞 Phone: ${formData.phone}\n` +
+      `📧 Email: ${formData.email}\n` +
+      `⛽ Product: ${formData.gas}\n` +
+      `🔢 Qty: ${formData.qty}\n` +
+      `📍 Address: ${formData.address}\n` +
+      `⏰ Delivery: ${formData.time}\n` +
+      `📅 Date: ${formData.date}\n\n` +
+      `Please confirm stock + delivery time.`;
+
+    const whatsappURL = `https://wa.me/27712345678?text=${encodeURIComponent(whatsappMessage)}`;
+
+    // Simulate server delay then open WhatsApp
+    setTimeout(() => {
+      btnText.textContent = '✅ Opening WhatsApp...';
+      
+      // Open WhatsApp
+      window.open(whatsappURL, '_blank');
+
+      // Success message
+      formStatus.textContent = `✅ Order saved! WhatsApp opened. Order #${orders.length} saved locally. We'll call you in 5 mins.`;
+      
+      // Reset after 3 sec
+      setTimeout(() => {
+        form.reset();
+        document.querySelectorAll('.valid, .invalid').forEach(el => el.classList.remove('valid', 'invalid'));
+        document.querySelectorAll('.error-msg').forEach(el => el.classList.remove('show'));
+        localStorage.removeItem('gasFormData'); // clear draft
+        btnText.textContent = '🚀 Order via WhatsApp';
+        submitBtn.disabled = false;
+        formStatus.style.display = 'none';
+      }, 3000);
+    }, 1000);
+  });
+
+  // Prevent form resubmit on refresh
+  if (window.history.replaceState) {
+    window.history.replaceState(null, null, window.location.href);
+  }
+
+  console.log('Form Validation Loaded ✓ - Regex + Real-time + WhatsApp');
+}
+// In main.js order form submit handler, after formData creation:
+if (window.ContactEmailProcess) {
+  await window.ContactEmailProcess.send({
+    id: 'ORD-' + Date.now(),
+    type: 'Gas Order',
+    name: formData.name,
+    phone: formData.phone,
+    email: formData.email,
+    subject: `${formData.gas} x${formData.qty} - Order`,
+    message: `Address: ${formData.address}\nTime: ${formData.time}\nProduct: ${formData.gas}\nQty: ${formData.qty}`,
+    contactMethod: 'WhatsApp'
+  });
+}

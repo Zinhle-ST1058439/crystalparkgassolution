@@ -1,0 +1,18 @@
+// Dynamic content data - Product listing
+const productsData = [
+  { id: 1, size: '19kg', type: 'refill', price: 450, oldPrice: 500, stock: 15, popular: true, desc: 'Large family, daily cooking', img: '🔥', badge: 'BEST SELLER' },
+  { id: 2, size: '19kg', type: 'new', price: 950, oldPrice: 1100, stock: 8, popular: false, desc: 'New cylinder + gas + free install', img: '🆕', badge: 'NEW SET' },
+  { id: 3, size: '9kg', type: 'refill', price: 250, oldPrice: 300, stock: 20, popular: true, desc: 'Medium family, flats', img: '🍳', badge: 'POPULAR' },
+  { id: 4, size: '9kg', type: 'new', price: 650, oldPrice: 750, stock: 5, popular: false, desc: 'New 9kg set with regulator', img: '🆕', badge: 'LIMITED' },
+  { id: 5, size: '5kg', type: 'refill', price: 180, oldPrice: 210, stock: 25, popular: false, desc: 'Small, camping, backup', img: '🏕️', badge: 'IN STOCK' },
+  { id: 6, size: '5kg', type: 'new', price: 450, oldPrice: 520, stock: 12, popular: false, desc: 'New 5kg complete set', img: '🎒', badge: 'NEW' },
+  { id: 7, size: '19kg', type: 'accessory', price: 150, oldPrice: 180, stock: 30, popular: false, desc: 'Regulator + hose 2m', img: '🔧', badge: 'ACCESSORY' },
+  { id: 8, size: 'all', type: 'service', price: 0, oldPrice: 0, stock: 99, popular: true, desc: 'Free safety check + leak test', img: '🛡️', badge: 'FREE' },
+];
+
+// Simulated blog posts / news - dynamic posts
+const postsData = [
+  { id: 1, title: 'How to save gas in winter', date: '2026-10-20', author: 'Thabo', likes: 24, category: 'Tips' },
+  { id: 2, title: 'New SANS regulations 2026', date: '2026-10-15', author: 'Admin', likes: 18, category: 'Safety' },
+  { id: 3, title: 'Crystal Park delivery now 45 mins', date: '2026-11-01', author: 'Team', likes: 42, category: 'News' },
+];

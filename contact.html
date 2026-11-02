@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+    <head><!-- PAGE SPEED -->
+<link rel="preload" href="css/style.css" as="style">
+<link rel="preload" href="js/main.js" as="script">
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="dns-prefetch" href="https://unpkg.com">
+
+<!-- Defer non-critical JS -->
+<script src="js/products.js" defer></script>
+<script src="js/main.js" defer></script>
+
+<!-- Images: Add loading="lazy" + width/height to ALL -->
+<img src="images/19kg.jpg" loading="lazy" width="600" height="400" alt="19kg gas">
         <meta charset="UTF-8">
         <meta name="viewpoint" content="width=device-width,intial scale=1.0">
         <!--Contact page for Crystal Park Gas Solutions-->>
-<title>Contact-Crystal Park Gas Solutions</title>
-<link rel="stylesheet" href="css/style.css">
-    </head>
+<title>Contact-Crystal Park Gas Solutions</title><title>Contact Crystal Park Gas | Location & Delivery Map Benoni 1515</title>
+<meta name="description" content="Contact Crystal Park Gas: 071 234 5678. Find us in Crystal Park, Benoni 1515. Free delivery 3km zone, R30 Benoni, R50 Boksburg. Open Mon-Sat 7am-7pm. Get directions.">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    </head><script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  (function(){ emailjs.init({ publicKey: "YOUR_PUBLIC_KEY_HERE" }); })();
+</script>
     <body>
+        <div id="progress-bar"></div><div id="contactStatus" style="display:none;padding:12px;border-radius:8px;margin:12px 0;"></div>
         <header>
             <h1>Crystal Park Gas Solutions<h1>
                 <nav>
@@ -19,10 +38,82 @@
                             <li><a href= "contact.html">Contact</a></li>
                         </ul>
                     </nav>
+                    <button class="hamburger">-</button>
+                    <div>
                 </header>
                 <main>
                     <section>
                         <h2>Contact Us<h2>
+                            <!-- CONTACT CONTROL PANEL -->
+<div style="max-width:900px;margin:0 auto;padding:20px;">
+
+  <h1>Contact Control - Crystal Park Gas</h1>
+
+  <!-- Control 1: Quick Contact Buttons -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0;">
+    <a href="tel:+27712345678" id="callControl" class="contact-btn" style="background:#16a34a;color:white;padding:14px;border-radius:10px;text-align:center;text-decoration:none;font-weight:600;">
+      📞 Call Now<br><small style="font-weight:normal;">071 234 5678</small>
+    </a>
+    <a href="https://wa.me/27712345678?text=Hi%20Crystal%20Park%20Gas%20-%20Need%20gas" id="waControl" class="contact-btn" style="background:#25D366;color:white;padding:14px;border-radius:10px;text-align:center;text-decoration:none;font-weight:600;">
+      💬 WhatsApp<br><small style="font-weight:normal;">Instant reply</small>
+    </a>
+    <a href="mailto:info@crystalparkgas.co.za" id="emailControl" class="contact-btn" style="background:#2563eb;color:white;padding:14px;border-radius:10px;text-align:center;text-decoration:none;font-weight:600;">
+      📧 Email<br><small style="font-weight:normal;">info@...</small>
+    </a>
+    <button id="copyControl" class="contact-btn" style="background:#f97316;color:white;padding:14px;border-radius:10px;text-align:center;border:none;cursor:pointer;font-weight:600;">
+      📋 Copy Number<br><small style="font-weight:normal;" id="copyText">Tap to copy</small>
+    </button>
+  </div>
+
+  <!-- Control 2: Contact Details with Edit Toggle (for admin demo) -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0;">
+    <div style="background:#f8fafc;padding:16px;border-radius:12px;border:1px solid #e2e8f0;">
+      <h3 style="margin:0 0 10px;">📍 Address Control</h3>
+      <p id="addressDisplay" style="margin:6px 0;">Crystal Park, Benoni, 1515<br>GPS: -26.177, 28.320</p>
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <button onclick="openMap()" style="padding:6px 12px;border-radius:6px;border:1px solid #e2e8f0;background:white;cursor:pointer;font-size:12px;">🗺️ Open Map</button>
+        <button onclick="getDirections()" style="padding:6px 12px;border-radius:6px;background:#FF6B00;color:white;border:none;cursor:pointer;font-size:12px;">🧭 Directions</button>
+        <button onclick="shareLocation()" style="padding:6px 12px;border-radius:6px;border:1px solid #e2e8f0;background:white;cursor:pointer;font-size:12px;">📤 Share</button>
+      </div>
+    </div>
+
+    <div style="background:#f8fafc;padding:16px;border-radius:12px;border:1px solid #e2e8f0;">
+      <h3 style="margin:0 0 10px;">⏰ Hours Control</h3>
+      <div id="hoursControl" style="font-size:13px;line-height:1.8;">
+        <div style="display:flex;justify-content:space-between;"><span>Mon - Fri</span><span><strong>7am - 7pm</strong> <span id="statusMonFri" style="color:#16a34a;">● Open</span></span></div>
+        <div style="display:flex;justify-content:space-between;"><span>Saturday</span><span><strong>7am - 7pm</strong></span></div>
+        <div style="display:flex;justify-content:space-between;"><span>Sunday</span><span><strong>8am - 2pm</strong></span></div>
+        <div style="margin-top:8px;padding:6px;background:#dcfce7;border-radius:6px;text-align:center;font-size:12px;" id="liveStatus">✅ Open now - Closes 7pm</div>
+      </div>
+      <button onclick="checkOpen()" style="margin-top:8px;padding:6px 12px;border-radius:6px;border:1px solid #e2e8f0;background:white;cursor:pointer;font-size:12px;width:100%;">🔄 Check if open now</button>
+    </div>
+  </div>
+
+  <!-- Control 3: Delivery Zones Control -->
+  <div style="background:white;border:2px solid #FF6B00;border-radius:12px;padding:16px;margin:20px 0;">
+    <h3 style="margin:0 0 12px;">🚚 Delivery Control - Check Your Zone</h3>
+    <div style="display:flex;gap:8px;">
+      <input type="text" id="zoneInput" placeholder="Enter suburb e.g., Crystal Park, Farrarmere, Rynfield..." style="flex:1;padding:12px;border:2px solid #e2e8f0;border-radius:8px;">
+      <button onclick="checkZone()" style="padding:12px 20px;background:#FF6B00;color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;">Check</button>
+    </div>
+    <div id="zoneResult" style="display:none;margin-top:12px;padding:12px;border-radius:8px;"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px;font-size:12px;">
+      <div style="background:#dcfce7;padding:8px;border-radius:6px;text-align:center;">🟢 FREE<br><strong>0-3km</strong><br>Crystal Park</div>
+      <div style="background:#fef3c7;padding:8px;border-radius:6px;text-align:center;">🟡 R30<br><strong>3-7km</strong><br>Benoni</div>
+      <div style="background:#fee2e2;padding:8px;border-radius:6px;text-align:center;">🔴 R50<br><strong>7-15km</strong><br>Boksburg etc</div>
+    </div>
+  </div>
+
+  <!-- Control 4: Map with Controls -->
+  <div id="map" style="height:380px;border-radius:12px;border:2px solid #e2e8f0;margin:20px 0;"></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+    <button onclick="mapControl('crystal')" style="padding:8px 14px;border-radius:20px;border:1px solid #e2e8f0;background:white;cursor:pointer;">📍 Crystal Park</button>
+    <button onclick="mapControl('benoni')" style="padding:8px 14px;border-radius:20px;border:1px solid #e2e8f0;background:white;cursor:pointer;">🏙️ Benoni</button>
+    <button onclick="mapControl('myLocation')" style="padding:8px 14px;border-radius:20px;background:#2563eb;color:white;border:none;cursor:pointer;">📌 My Location</button>
+    <button onclick="mapControl('zones')" style="padding:8px 14px;border-radius:20px;border:1px solid #e2e8f0;background:white;cursor:pointer;">⭕ Zones</button>
+  </div>
+
+</div>
                             <p><strong>Address:</strong>123 Main Road,Crystal Park,Benoni,1501</p>
                             <p><strong>Phone:</strong> 0115551234</p>
                             <p><strong>Email:</strong> info@crystalparkgas.co.za</p>
@@ -35,9 +126,122 @@
                                 <!--You can replace with Google Maps iframe later-->
                             <p>We delievr in Crystal Park,Alliance, and surronding areas.</p>
                             </section>
-                        </main>
+                            <div class="grid grid-2">
+                                <form id -="orderForm">
+                                    <label for="name">Name:</label>
+                                    <input type="text" id="name" name="name" required>
+                                    <label for="email">Email:</label>
+                                    <input type="email" id="email" name="email" required>
+                                    <label for="phone">Phone Number:</label>
+                                    <input type="tel" id="phone" name="phone" required>
+                                    <label for="message">Message:</label>
+                                    <textarea id="message" name="message" required></textarea>
+                                    <label>Gas Type </label>
+                                    <select id="gas" name="gas" required>
+                                        <option value="">Select a gas type</option>
+                                        <option value="19kg -refill">19kg -refill</option>
+                                        <option value="19kg -new">19kg -new</option>
+                                        <option value="9kg -refill">9kg -refill</option>
+                                        <option value="9kg -new">9kg -new</option>
+                                        <option value="5kg -refill">5kg -refill</option>
+                                        <option value="5kg -new">5kg -new</option>
+                                    </select>
+                                    <div id="priceDisplay" style="padding:12px;background :#f8fafc;border-radius:8px;margin:12px 0; text align :center;">Select gas type and enter quantity.</div>
+                                <label>Delivery Address</label>
+                                <input type="text" id="address" name="address" required
+                                <textarea id="address" name="address" required></textarea>
+                                <label for="quantity">Quantity:</label>
+                                <button type="button" id="calculatePrice">Calculate Price</button>
+                                </form><form id="gasOrderForm" novalidate>
+  <div class="form-group">
+    <label for="customerName">Full Name *</label>
+    <input type="text" id="customerName" name="name" placeholder="e.g., Thabo Molefe" autocomplete="name" required>
+    <small class="error-msg" id="nameError"></small>
+  </div>
+
+  <div class="form-group">
+    <label for="customerPhone">Phone (WhatsApp) *</label>
+    <input type="tel" id="customerPhone" name="phone" placeholder="e.g., 0712345678 or +27712345678" autocomplete="tel" required>
+    <small class="error-msg" id="phoneError"></small>
+  </div>
+
+  <div class="form-group">
+    <label for="customerEmail">Email (Optional)</label>
+    <input type="email" id="customerEmail" name="email" placeholder="e.g., thabo@gmail.com" autocomplete="email">
+    <small class="error-msg" id="emailError"></small>
+  </div>
+
+  <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+    <div class="form-group">
+      <label for="gasSize">Gas Size *</label>
+      <select id="gasSize" name="gasSize" required>
+        <option value="">-- Select Size --</option>
+        <option value="19kg Refill - R450">19kg Refill - R450</option>
+        <option value="19kg New - R950">19kg New - R950</option>
+        <option value="9kg Refill - R250">9kg Refill - R250</option>
+        <option value="9kg New - R650">9kg New - R650</option>
+        <option value="5kg Refill - R180">5kg Refill - R180</option>
+        <option value="5kg New - R450">5kg New - R450</option>
+      </select>
+      <small class="error-msg" id="sizeError"></small>
+    </div>
+
+    <div class="form-group">
+      <label for="quantity">Quantity *</label>
+      <input type="number" id="quantity" name="quantity" min="1" max="10" value="1" required>
+      <small class="error-msg" id="qtyError"></small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="address">Delivery Address *</label>
+    <textarea id="address" name="address" rows="3" placeholder="e.g., 123 Crystal Park, Benoni - Click map to auto-fill" required></textarea>
+    <small class="error-msg" id="addressError"></small>
+    <small style="color:#64748b;">💡 Tip: Click on map to fill address automatically</small>
+  </div>
+
+  <div class="form-group">
+    <label for="deliveryTime">Preferred Delivery Time</label>
+    <select id="deliveryTime" name="time">
+      <option value="ASAP - 60 min">ASAP - 60 min</option>
+      <option value="Morning 8-12">Morning 8am-12pm</option>
+      <option value="Afternoon 12-5">Afternoon 12pm-5pm</option>
+      <option value="Evening 5-7">Evening 5pm-7pm</option>
+    </select>
+  </div>
+
+  <div class="form-group" style="display:flex;gap:8px;align-items:center;">
+    <input type="checkbox" id="terms" required style="width:auto;">
+    <label for="terms" style="margin:0;font-weight:normal;">I agree to SANS safety check *</label>
+  </div>
+  <small class="error-msg" id="termsError"></small>
+
+  <div id="formStatus" style="display:none;padding:12px;border-radius:8px;margin:12px 0;"></div>
+
+  <button type="submit" id="submitBtn" class="btn-primary" style="width:100%;padding:14px;font-size:16px;">
+    <span id="btnText">🚀 Order via WhatsApp</span>
+  </button>
+
+  <p style="text-align:center;font-size:12px;color:#64748b;margin-top:8px;">
+    Secure form • Validated • No spam
+  </p>
+</form>
+                                </div>
+                                </div>
+                                <div class="card">
+                                    <h3>Contact info</h3>
+                                    <p>Phone: (123) 456-7890</p>
+                                    <p>Email: info@crystalparkgas.com</p>
+                                    <p>Address: 123 Main Street, Crystal Park, Benoni</p>
+                                    <p>Business Hours: Monday-Friday: 8:00 AM - 6:00 PM, Saturday: 8:00 AM - 2:00 PM, Sunday: Closed</p>
+                                </div>
+                                <h3>Why Us?</h3>
+                                <p>SANS Certified <br>60 min delivery<br>safe installation</p><p></p></p>
+                            </div>
+                        </section>
                         <footer>
                             <p>&copy; 2026 Crystal Park Gas Solutions.All rights reserved.</p>
                         </footer>
+                        <script src="js/main.js"></script>
                     </body>
                     </html>
