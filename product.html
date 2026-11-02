@@ -1,16 +1,55 @@
 <!DOCTYPE html>
 <html lang ="en">
-    <head>
+    <head><!-- PAGE SPEED -->
+<link rel="preload" href="css/style.css" as="style">
+<link rel="preload" href="js/main.js" as="script">
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="dns-prefetch" href="https://unpkg.com">
+
+<!-- Defer non-critical JS -->
+<script src="js/products.js" defer></script>
+<script src="js/main.js" defer></script>
+
+<!-- Images: Add loading="lazy" + width/height to ALL -->
+<img src="images/19kg.jpg" loading="lazy" width="600" height="400" alt="19kg gas">
         <meta charset= "UTF-8">
         <meta name ="viewpoint" content="width=device-width,intial-scale=1.0">
         <!--Product page for Crystal Park Gas Solutions-->
-        <title>Products-Crystal Park Gas Solutions</title>
-        <link rel= "stylesheet" href="css/style.css">
+        <title>Products-Crystal Park Gas Solutions</title><title>Gas Bottles Benoni - New & Refill 19kg 9kg 5kg | Crystal Park Gas</title>
+<meta name="description" content="Buy gas bottles in Benoni: 19kg, 9kg, 5kg new cylinders & refills. Regulators, hoses, accessories. 15+ in stock, 60-min delivery. Order online now.">
+        <link rel= "stylesheet" href="style.css">
     </head>
     <body>
+        <!-- GLOBAL SEARCH - Put this in header or top section -->
+<div class="card" style="position:sticky;top:70px;z-index:10;">
+  <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+    <div style="position:relative;flex:1;min-width:250px;">
+      <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);">🔍</span>
+      <input type="text" id="globalSearch" placeholder="Search products, posts, gas sizes... e.g., 19kg, refill, safety" style="width:100%;padding:12px 12px 12px 36px;border-radius:25px;border:2px solid #e2e8f0;">
+      <button id="clearSearch" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#f1f5f9;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;display:none;">✕</button>
+    </div>
+    <div id="searchStats" style="font-size:13px;color:#64748b;white-space:nowrap;">Ready to search</div>
+  </div>
+  <div id="searchTags" style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;">
+    <span class="search-tag" data-q="19kg">19kg</span>
+    <span class="search-tag" data-q="refill">Refill</span>
+    <span class="search-tag" data-q="new">New Cylinder</span>
+    <span class="search-tag" data-q="safety">Safety</span>
+    <span class="search-tag" data-q="free">Free Delivery</span>
+  </div>
+</div>
+
+<div id="noResults" style="display:none;text-align:center;padding:40px;" class="card">
+  <div style="font-size:48px;">😕</div>
+  <h3>No results for "<span id="noResultsQuery"></span>"</h3>
+  <p>Try: 19kg, 9kg, 5kg, refill, safety, delivery</p>
+  <button id="resetSearch" class="btn-secondary" style="margin-top:10px;">Clear Search</button>
+</div>
         <header>
             <h1>Crystal Park Gas Solutions<h1>
-                <nav>
+                <nav><nav aria-label="Breadcrumb" style="font-size:13px;padding:10px 0;">
+  <a href="index.html">Home</a> > <a href="gas-prices-benoni.html">Gas Prices</a> > 19kg Refill
+</nav>
                     <ul>
                         <li><a href ="index.html">Home</a></li>
                         <li><a href ="about.html">About</a></li>
@@ -51,9 +90,51 @@
                                 </article>
                                 <p><em>* Prices include delivery in Crystal Park and Alliance.Delivery fee R20 outside these areas.</em></p>
                             </section>
+                            <section class="section">
+  <div class="container">
+    <h2>Our Products - Dynamic Loading</h2>
+    
+    <!-- Controls: Search + Filter -->
+    <div class="card" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+      <input type="text" id="searchInput" placeholder="🔍 Search e.g., 19kg, refill..." style="flex:1;min-width:200px;padding:10px;border-radius:8px;border:1px solid #e2e8f0;">
+      <select id="filterSize" style="padding:10px;border-radius:8px;">
+        <option value="all">All Sizes</option>
+        <option value="19kg">19kg</option>
+        <option value="9kg">9kg</option>
+        <option value="5kg">5kg</option>
+      </select>
+      <select id="filterType" style="padding:10px;border-radius:8px;">
+        <option value="all">All Types</option>
+        <option value="refill">Refill Only</option>
+        <option value="new">New Cylinder</option>
+        <option value="accessory">Accessories</option>
+      </select>
+      <button id="sortPrice" class="btn-secondary" style="padding:10px 16px;">Sort by Price ↑</button>
+    </div>
+
+    <!-- Stats -->
+    <div style="display:flex;gap:16px;margin:16px 0;font-size:13px;color:#64748b;">
+      <span id="productCount">Loading...</span>
+      <span id="loadingStatus" style="color:#FF6B00;">● Loading dynamic content...</span>
+    </div>
+
+    <!-- Products will be injected here by JS -->
+    <div id="productsGrid" class="grid grid-3"></div>
+
+    <!-- Posts will be injected here -->
+    <h3 style="margin-top:40px;">Latest News - Dynamic Posts</h3>
+    <div id="postsList" class="grid grid-3"></div>
+
+    <!-- Load More button -->
+    <div style="text-align:center;margin-top:20px;">
+      <button id="loadMoreBtn" class="btn-secondary">Load More Products</button>
+    </div>
+  </div>
+</section>
                         </main>
                         <footer>
                             <p>&copy; 2026 Crystal Park Gas Solutions.Allrights reserved.</p>
                         </footer>
+                        <script src="js/main.js"></script>
                     </body>
                     </html>
